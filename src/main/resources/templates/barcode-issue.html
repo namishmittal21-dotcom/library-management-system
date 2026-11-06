@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Scan Barcode</title><link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+<script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-4">
+    <h3>Scan Barcode to Issue Book</h3>
+    <div id="reader" style="width:500px"></div>
+    <form id="barcodeForm" method="post" th:action="@{/barcode/scan}">
+        <input type="hidden" name="barcode" id="barcodeInput">
+    </form>
+    <div th:if="${success}" class="alert alert-success mt-2">[[${success}]]</div>
+    <div th:if="${error}" class="alert alert-danger mt-2">[[${error}]]</div>
+    <hr>
+    <p>Or enter barcode manually: 
+        <input type="text" id="manualBarcode" class="form-control w-25 d-inline">
+        <button onclick="document.getElementById('barcodeInput').value=document.getElementById('manualBarcode').value; document.getElementById('barcodeForm').submit();" class="btn btn-secondary">Submit</button>
+    </p>
+</div>
+<script>
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
+        (decodedText) => { document.getElementById("barcodeInput").value = decodedText; document.getElementById("barcodeForm").submit(); },
+        (error) => {});
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Borrow Book</title><link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-4">
+    <h3>Select a Book to Borrow</h3>
+    <div th:if="${success}" class="alert alert-success">[[${success}]]</div>
+    <div th:if="${error}" class="alert alert-danger">[[${error}]]</div>
+    <table class="table">
+        <thead><tr><th>Title</th><th>Author</th><th>Barcode</th><th>Action</th></tr></thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.barcode}"></td>
+                <td><form method="post" th:action="@{/user/borrow/issue}"><input type="hidden" name="bookId" th:value="${book.id}"><button class="btn btn-primary btn-sm">Issue</button></form></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">📚 LibraryMS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                    <li sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/admin/books">Manage Books</a></li>
+                    <li sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/admin/members">Manage Members</a></li>
+                    <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/barcode/issue">Issue by Barcode</a></li>
+                    <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/user/borrow">Borrow Book</a></li>
+                    <li sec:authorize="hasRole('USER')"><a class="nav-link" href="/user/my-borrowings">My Borrowings</a></li>
+                </ul>
+                <form th:action="@{/logout}" method="post" class="d-flex">
+                    <button class="btn btn-outline-light" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>
+</html>
